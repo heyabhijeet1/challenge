@@ -266,7 +266,7 @@ export function initApp() {
   function closePop() {
     pop.style.display = "none";
     pop.className = "";
-    if (undoData && $("pb").textContent === "Yay!") showToast("Marked as done");
+
     if (pendLv !== null) {
       const k = pendLv;
       pendLv = null;
@@ -1158,17 +1158,19 @@ export function initApp() {
     const b = $("onbody");
     const mouse = matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (ostep === 0) {
-      b.innerHTML =
+            b.innerHTML =
         '<div class="oe">👋</div><div class="oh">Win your day</div><p class="op">Turn what you need to do into small wins.</p>' +
         '<div class="orow"><span>✅</span><div><b>Challenges</b><small>Things to do today. They reset at midnight.</small></div></div>' +
         '<div class="orow"><span>🎯</span><div><b>Milestones</b><small>Bigger goals with deadlines.</small></div></div>' +
         '<div class="orow"><span>🌠</span><div><b>Bucket list</b><small>Dreams that keep you going.</small></div></div>' +
-        '<div class="orow"><span>🎁</span><div><b>Gift Vault</b><small>Make progress to unlock surprise gifts. Open them and keep them forever.</small></div></div>';
+        '<div class="orow"><span>🎁</span><div><b>Gift Vault</b><small>Make progress to unlock surprise gifts you keep forever.</small></div></div>' +
+        '<div class="orow"><span>⏱️</span><div><b>Stopwatch</b><small>Track focus time. Every full hour earns points.</small></div></div>' +
+        '<div class="orow"><span>📝</span><div><b>Notes</b><small>Capture ideas. Type / for headings and checklists.</small></div></div>';
     } else if (mouse) {
       b.innerHTML =
         '<div class="oe">✅</div><div class="oh">Click to win</div>' +
         '<div class="item" style="margin:16px 0"><div class="card" style="text-align:left"><div><b>Read for 30 minutes</b><small> · +5 pts</small></div><button class="x">🗑</button><button class="ok">✅</button></div></div>' +
-        '<p class="op">Click the check button on the right of a challenge to complete it. You get points and a celebration. Keep your streak and level up. Use the trash button to delete one.</p>' +
+        `<p class="op">Click the check button on the right of a challenge to complete it. You get points and a celebration. Keep your streak and level up. Finishing is final, so tick it only when it's really done.</p>` +
         '<p class="op" style="font-size:13px">Shortcuts: N for a new note, S for the stopwatch, Esc to close a screen.</p>';
     } else {
       b.innerHTML =

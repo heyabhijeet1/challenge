@@ -1,5 +1,5 @@
 // Replaces emoji characters anywhere in the page with crisp inline Lucide SVG icons.
-import { AlarmClock, Angry, ArrowRight, Atom, Ban, Bell, BellOff, Bird, BookOpen, Brain, ChartColumn, CircleCheck, CircleHelp, ClipboardList, Clock, Coins, Compass, Crown, DoorOpen, Drama, Droplet, Dumbbell, Eye, Flag, Flame, Flower2, Footprints, Frown, Gamepad2, Gauge, Gem, Globe, Guitar, Hammer, Hand, Handshake, Hourglass, Key, Lightbulb, Link, Lock, Medal, Mountain, Orbit, PartyPopper, PawPrint, Puzzle, Rainbow, Receipt, Recycle, RefreshCw, Repeat, Rocket, Route, Shield, Skull, SlidersHorizontal, Sofa, Sparkle, Sparkles, Sprout, Star, StickyNote, Sunrise, Swords, Target, Timer, Trash2, TreePalm, TreePine, TrendingUp, TriangleAlert, Trophy, WandSparkles, Wind, Wrench, Zap } from 'lucide'
+import { AlarmClock, Angry, ArrowRight, Atom, Ban, Bell, BellOff, Bird, BookOpen, Brain, ChartColumn, CircleCheck, CircleHelp, ClipboardList, Clock, Coins, Compass, Crown, DoorOpen, Drama, Droplet, Dumbbell, Eye, Flag, Flame, Flower2, Footprints, Frown, Gamepad2, Gauge, Gem, Gift, Globe, Guitar, Hammer, Hand, Handshake, Hourglass, Key, Lightbulb, Link, Lock, Medal, Mountain, Orbit, PartyPopper, PawPrint, Puzzle, Rainbow, Receipt, Recycle, RefreshCw, Repeat, Rocket, Route, Shield, Skull, SlidersHorizontal, Sofa, Sparkle, Sparkles, Sprout, Star, StickyNote, Sunrise, Swords, Target, Timer, Trash2, TreePalm, TreePine, TrendingUp, TriangleAlert, Trophy, WandSparkles, Wind, Wrench, Zap } from 'lucide'
 import type { IconNode } from 'lucide'
 
 const MAP: Record<string, IconNode> = {
@@ -92,6 +92,7 @@ const MAP: Record<string, IconNode> = {
   "🔕": BellOff,
   "🗑": Trash2,
   "🎉": PartyPopper,
+  "🎁": Gift,
 }
 
 const RE = /[\u{1F000}-\u{1FAFF}\u2300-\u23FF\u2600-\u27BF\u2B00-\u2BFF](?:\uFE0F|[\u{1F3FB}-\u{1F3FF}])*(?:\u200D[\u{1F000}-\u{1FAFF}\u2600-\u27BF]\uFE0F?)*/gu

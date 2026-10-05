@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { CheckCircle2, Target, Sparkles, BarChart3, Timer, StickyNote, HelpCircle, Star, Flame } from 'lucide-react'
+import { CheckCircle2, Target, Sparkles, BarChart3, Timer, StickyNote, HelpCircle, Star, Flame, Gift } from 'lucide-react'
+import { useGifts } from './gifts'
 import ThemeToggle from './ThemeToggle'
 
 const w = window as any
-const PANEL_IDS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap']
-const PANEL_KEY: Record<string, string> = { nt: 'notes', nl: 'notes', sw: 'sw', pts: 'stats', stk: 'stats', recap: 'stats' }
+const PANEL_IDS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap', 'gv']
+const PANEL_KEY: Record<string, string> = { nt: 'notes', nl: 'notes', sw: 'sw', pts: 'stats', stk: 'stats', recap: 'stats', gv: 'gifts' }
 const visible = (id: string) => {
   const el = document.getElementById(id)
   return !!el && getComputedStyle(el).display !== 'none'
@@ -24,6 +25,7 @@ const ITEMS = [
   { key: 'c', label: 'Challenges', icon: CheckCircle2 },
   { key: 'm', label: 'Milestones', icon: Target },
   { key: 'b', label: 'Bucket list', icon: Sparkles },
+  { key: 'gifts', label: 'Gift Vault', icon: Gift },
   { key: 'stats', label: 'Statistics', icon: BarChart3 },
   { key: 'sw', label: 'Stopwatch', icon: Timer },
   { key: 'notes', label: 'Notes', icon: StickyNote },
@@ -33,6 +35,7 @@ export default function Sidebar() {
   const [active, setActive] = useState('c')
   const [score, setScore] = useState('')
   const [streak, setStreak] = useState('')
+  const waiting = useGifts().pending.length
 
   useEffect(() => {
     const read = () => {
@@ -52,6 +55,7 @@ export default function Sidebar() {
     closeAll()
     if (key === 'stats') w.openRecap?.()
     else if (key === 'sw') w.openSw?.()
+    else if (key === 'gifts') w.openGifts?.()
     else if (key === 'notes') w.openNotes?.()
     else w.setTab?.(key)
   }
@@ -71,6 +75,7 @@ export default function Sidebar() {
           <button
             key={key}
             onClick={() => go(key)}
+            data-gift-ready={key === 'gifts' && waiting > 0 ? 'true' : undefined}
             className={
               base +
               (active === key
@@ -78,8 +83,9 @@ export default function Sidebar() {
                 : ' bg-transparent text-[var(--mute)] hover:bg-[color-mix(in_srgb,var(--mute)_12%,transparent)] hover:text-[var(--text)]')
             }
           >
-            <Icon size={19} strokeWidth={2.2} />
+            <Icon size={19} strokeWidth={2.2} className={key === 'gifts' && waiting > 0 ? 'gv-glow' : undefined} />
             {label}
+            {key === 'gifts' && waiting > 0 && <span className="gv-badge" aria-label={`${waiting} gifts ready to open`}>{waiting}</span>}
           </button>
         ))}
       </nav>

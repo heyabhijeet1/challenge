@@ -13,6 +13,7 @@ function Markup() {
 <div className="score" id="score" onClick={() => w.openPts()}>⭐ 0 points</div>
 <div className="score st" id="streak" onClick={() => w.openStk()}>🔥 0</div>
 <div style={{"marginLeft": "auto", "display": "flex", "gap": "6px"}}>
+<button className="snd" id="gvbtn" aria-label="Gift Vault" title="Gift Vault" onClick={() => w.openGifts?.()}>🎁</button>
 <button className="snd" id="swbtn" onClick={() => w.openSw()}>⏱️</button>
 <button className="snd" onClick={() => w.openRecap()}>📊</button>
 <button className="snd" id="snd" onClick={() => w.toggleSnd()}>🔔</button>
@@ -49,8 +50,6 @@ function Markup() {
 </div>
 </div>{' '}<div className="add">
 <input id="bt" placeholder="Add to your bucket list…" maxLength={120} />
-<div id="blv">
-</div>
 <button onClick={() => w.addB()}>Add to bucket list</button>
 </div>{' '}<h3>{"Dreams "}<span id="n6">
 </span>
@@ -70,7 +69,6 @@ function Markup() {
 </h3>{' '}<div id="mfail">
 </div>{' '}</div>{' '}<div className="reset">
 <button onClick={() => w.openOnb()} style={{"color": "var(--mute)"}}>How it works</button>
-<button onClick={() => w.resetAll()}>Reset all progress</button>
 </div>{' '}</div>{' '}<div id="nl">
 <div className="vbox">{' '}<div className="vhead">
 <b>📝 Quick notes</b>

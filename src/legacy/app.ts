@@ -1,5 +1,7 @@
 // @ts-nocheck
 // Original app logic, ported 1:1 from the artifact.
+import { giftBridge } from "../gifts/bridge";
+
 let started = false;
 export function initApp() {
   if (started) return;
@@ -36,14 +38,7 @@ export function initApp() {
     g: ["Extreme", 100, C.extreme, 150],
   };
   let cur = "e",
-    tab = "c",
-    curB = "e";
-  const BLV = {
-    e: ["Easy", C.easy],
-    m: ["Medium", C.medium],
-    h: ["Hard", C.hard],
-    g: ["Extreme", C.extreme],
-  };
+    tab = "c";
   let S = { items: [], pts: 0 };
   try {
     S = JSON.parse(localStorage.getItem("ch") || "") || S;
@@ -54,6 +49,7 @@ export function initApp() {
     try {
       localStorage.setItem("ch", JSON.stringify(S));
     } catch (e) {}
+    giftBridge.markDirty();
   }
   function key(d) {
     return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -406,24 +402,6 @@ export function initApp() {
       x.onclick = () => {
         cur = k;
         drawLv();
-      };
-      b.appendChild(x);
-    }
-  }
-  function drawBLv() {
-    const b = $("blv");
-    b.innerHTML = "";
-    for (const k in BLV) {
-      const x = document.createElement("button");
-      x.textContent = BLV[k][0];
-      if (k === curB) {
-        x.className = "on";
-        x.style.background = BLV[k][1];
-        x.style.color = k === "e" || k === "m" ? "var(--on-light)" : "#fff";
-      }
-      x.onclick = () => {
-        curB = k;
-        drawBLv();
       };
       b.appendChild(x);
     }
@@ -1261,8 +1239,11 @@ export function initApp() {
     $("nt").style.display = "block";
     $("nbody").focus();
   }
+  // Notes are ordered by when they were created (newest first). Editing never moves them.
+  const created = (n) => n.c || n.id || n.t || 0;
   function newNote() {
-    cn = { id: Date.now(), title: "", text: "", t: Date.now(), isNew: true };
+    const now = Date.now();
+    cn = { id: now, c: now, title: "", text: "", t: now, isNew: true };
     $("nl").style.display = "none";
     openEd();
   }
@@ -1335,7 +1316,7 @@ export function initApp() {
         '<div class="empty">No notes yet. Tap + to capture an idea ✨</div>';
     S.notes
       .slice()
-      .sort((a, b) => b.t - a.t)
+      .sort((a, b) => created(b) - created(a) || b.id - a.id)
       .forEach((n) => {
         const c = document.createElement("div");
         c.className = "card ncard";
@@ -1345,7 +1326,7 @@ export function initApp() {
         c.querySelector(".np").textContent = (
           n.text.split("\n").find((l) => l.trim()) || ""
         ).slice(0, 80);
-        const d = new Date(n.t);
+        const d = new Date(created(n));
         c.querySelector(".nd").textContent =
           d.toLocaleDateString([], { month: "short", day: "numeric" }) +
           " · " +
@@ -1410,7 +1391,7 @@ export function initApp() {
     const t = $("bt"),
       v = t.value.trim();
     if (!v) return;
-    S.items.push({ id: Date.now(), t: v, type: "b", lv: curB, d: false });
+    S.items.push({ id: Date.now(), t: v, type: "b", lv: "e", d: false });
     t.value = "";
     save();
     render();
@@ -1429,7 +1410,7 @@ export function initApp() {
     bump();
     logE("b", 0, i.t);
     save();
-    const lv = i.lv || "e";
+    const lv = "m";
     $("pe").innerHTML = badge("bk", lv);
     $("pt").textContent = "Bucket list item achieved: " + i.t;
     $("pb").textContent = "Yay!";
@@ -1442,7 +1423,6 @@ export function initApp() {
   }
   const EM = ["✨", "🌍", "🚀", "🎯", "💫", "🏔️", "🎸", "🏝️"];
   function elB(i) {
-    const BL = BLV[i.lv || "e"];
     const w = document.createElement("div");
     w.className = "item" + (i.d ? " gold" : "");
     if (!i.d) {
@@ -1452,23 +1432,12 @@ export function initApp() {
     c.className = "card dcard";
     c.innerHTML =
       '<div class="em"></div><div style="flex:1;min-width:0"><b></b><small></small></div><button class="x">🗑</button>';
-    c.style.borderLeft = "5px solid " + BL[1];
+    c.style.borderLeft = "5px solid var(--green)";
     c.querySelector(".em").textContent = i.d ? "🏆" : EM[i.id % EM.length];
-    c.querySelector(".em").style.background = BL[1] + "26";
+    c.querySelector(".em").style.background = "color-mix(in srgb, var(--green) 15%, transparent)";
     c.querySelector("b").textContent = i.t;
     const sm = c.querySelector("small");
-    sm.textContent =
-      " · " +
-      (i.d
-        ? "Achieved ✓"
-        : matchMedia("(hover: hover) and (pointer: fine)").matches
-          ? "Click ✅ to complete"
-          : "Slide right to complete");
-    const tg = document.createElement("span");
-    tg.className = "tag";
-    tg.style.color = BL[1];
-    tg.textContent = BL[0];
-    sm.prepend(tg);
+    sm.textContent = i.d ? "Achieved ✓" : "";
     c.querySelector(".x").onclick = () =>
       ask("Remove from your bucket list?", "Yes, remove", () => del(i.id));
     if (!i.d) {
@@ -1530,42 +1499,6 @@ export function initApp() {
   function del(id) {
     S.items = S.items.filter((i) => i.id !== id);
     save();
-    render();
-  }
-  function resetAll() {
-    ask(
-      "Reset all progress? This deletes every challenge, milestone, bucket list item, your points, streak and level. It cannot be undone.",
-      "Continue",
-      () =>
-        ask(
-          "Last warning. Everything will be erased for good. Are you absolutely sure?",
-          "Yes, erase all",
-          doReset,
-        ),
-    );
-  }
-  function doReset() {
-    const m = S.mute;
-    S = {
-      items: [],
-      pts: 0,
-      streak: 0,
-      last: "",
-      mute: m,
-      log: [],
-      ses: [],
-      sw: null,
-      swRem: 0,
-      swH: 0,
-      swDay: "",
-      seen: true,
-      notes: S.notes,
-      noteN: S.noteN,
-    };
-    dreamId = null;
-    pendLv = null;
-    save();
-    setTab("c");
     render();
   }
   function closeAsk() {
@@ -1891,7 +1824,6 @@ export function initApp() {
     if (e.key === "Enter") addM();
   });
   drawLv();
-  drawBLv();
   tick();
   if (!S.seen) {
     if (S.items.length || S.pts || S.log.length) {
@@ -1900,6 +1832,28 @@ export function initApp() {
     } else openOnb();
   }
   setInterval(tick, 60000);
+
+  // Gift Vault: read-only window onto the state above. Everything is read through the app's own
+  // helpers (curStreak, streakBest, dayScores, lvlIdx), so gifts never keep a second set of counters.
+  giftBridge.register({
+    snapshot: () => ({
+      items: S.items,
+      log: S.log,
+      ses: S.ses,
+      sw: S.sw,
+      points: S.pts,
+      levelIndex: lvlIdx(S.pts),
+      streakCurrent: curStreak(),
+      streakBest: Math.max(S.best || 0, streakBest(dayScores()), curStreak()),
+      dayScores: dayScores(),
+      todayKey: today(),
+    }),
+    // Hold unlocks back while a celebration is on screen or Undo is still available.
+    canCommit: () =>
+      pop.style.display !== "flex" &&
+      $("lvup").style.display !== "flex" &&
+      $("toast").style.display !== "flex",
+  });
 
   try {
     (window as any).$ = $;
@@ -1963,9 +1917,6 @@ export function initApp() {
   } catch (e) {}
   try {
     (window as any).openSw = openSw;
-  } catch (e) {}
-  try {
-    (window as any).resetAll = resetAll;
   } catch (e) {}
   try {
     (window as any).setH = setH;

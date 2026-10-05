@@ -4,8 +4,9 @@ import Sidebar from './Sidebar'
 import ThemeToggle from './ThemeToggle'
 import { initApp } from './legacy/app'
 import { installEmojiIcons } from './emojiIcons'
+import { GiftReveal, GiftVault, startGiftEngine } from './gifts'
 
-const PANELS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap']
+const PANELS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap', 'gv']
 const isOpen = (id: string) => {
   const el = document.getElementById(id)
   return !!el && getComputedStyle(el).display !== 'none'
@@ -14,6 +15,7 @@ const isOpen = (id: string) => {
 export default function App() {
   useEffect(() => {
     initApp()
+    startGiftEngine()
     installEmojiIcons()
     const w = window as any
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -30,7 +32,7 @@ export default function App() {
         return
       }
       if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target as HTMLElement).tagName)) return
-      if (PANELS.some(isOpen) || ['pop', 'ask', 'lvup', 'onb'].some(isOpen)) return
+      if (PANELS.some(isOpen) || ['pop', 'ask', 'lvup', 'onb', 'gvr'].some(isOpen)) return
       if (e.key === 'n') { e.preventDefault(); w.newNote?.() }
       if (e.key === 's') { e.preventDefault(); w.openSw?.() }
     }
@@ -41,6 +43,8 @@ export default function App() {
     <>
       <Sidebar />
       <Markup />
+      <GiftVault />
+      <GiftReveal />
     </>
   )
 }

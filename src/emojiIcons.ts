@@ -124,11 +124,18 @@ function convert(t: Text) {
   t.replaceWith(frag)
 }
 
+// Text the user is typing (inputs, textareas, the rich notes editor) must never be rewritten.
+const isEditable = (n: Node) => {
+  const e = n.nodeType === 1 ? (n as HTMLElement) : n.parentElement
+  return !!e && e.isContentEditable
+}
+
 function walk(node: Node) {
-  if (node.nodeType === 3) return convert(node as Text)
+  if (node.nodeType === 3) return isEditable(node) ? undefined : convert(node as Text)
   if (node.nodeType !== 1) return
   const tag = (node as Element).tagName
   if (/^(SCRIPT|STYLE|TEXTAREA|INPUT|svg)$/i.test(tag)) return
+  if (isEditable(node)) return
   Array.from(node.childNodes).forEach(walk)
 }
 

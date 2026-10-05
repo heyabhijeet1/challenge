@@ -1,0 +1,66 @@
+/* Notes editor. Uses the app's own tokens (--card --line --text --mute --primary --bg) so light and
+   dark mode both work. Scoped to #ned, #nbody and the .ntb / .nslash classes. */
+
+#ned{display:flex;flex-direction:column;flex:1;min-height:0}
+
+/* toolbar: a compact bar that stays visible while a long note scrolls */
+.ntb{display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:4px;margin-bottom:8px;
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:3;
+  background:var(--card);border:1px solid var(--line);border-radius:14px}
+.ntb .sep{width:1px;height:18px;background:var(--line);margin:0 5px;flex:none}
+.ntb button{flex:none;width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;
+  border:0;border-radius:9px;background:transparent;color:var(--mute);cursor:pointer;transition:background .12s,color .12s}
+.ntb button:hover{background:color-mix(in srgb,var(--mute) 15%,transparent);color:var(--text)}
+.ntb button[aria-pressed="true"]{background:color-mix(in srgb,var(--primary) 18%,transparent);color:var(--primary)}
+.ntb button:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
+@media (max-width:640px){
+  .ntb{padding:3px;gap:1px}
+  .ntb button{width:36px;height:36px}
+  .ntb .sep{display:none}
+}
+
+/* the writing surface (the old textarea rules in index.css still give it its card look) */
+#nbody{flex:1;min-height:55vh;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;outline:none;cursor:text;
+  caret-color:var(--primary);-webkit-user-select:text;user-select:text}
+#nbody:focus{border-color:color-mix(in srgb,var(--primary) 55%,var(--line))}
+#nbody p,#nbody>div{margin:0 0 .3em;min-height:1.5em}
+/* the app's global h1 (gradient text, inline-block) and h3 (small blue caps) styles must not apply here */
+#nbody h1,#nbody h2,#nbody h3{display:block;background:none;-webkit-background-clip:border-box;background-clip:border-box;
+  color:var(--text);text-transform:none;letter-spacing:normal;font-family:inherit}
+#nbody h1{font-size:2em;line-height:1.2;font-weight:bold;margin:.5em 0 .2em}
+#nbody h2{font-size:1.5em;line-height:1.25;font-weight:bold;margin:.5em 0 .2em}
+#nbody h3{font-size:1.17em;line-height:1.3;font-weight:bold;margin:.45em 0 .15em}
+#nbody>:first-child{margin-top:0}
+#nbody ul,#nbody ol{margin:.15em 0 .35em;padding-left:1.55em}
+#nbody li{margin:.12em 0;min-height:1.5em}
+#nbody blockquote{margin:.4em 0;padding:.1em 0 .1em 14px;border-left:3px solid var(--primary);color:var(--mute)}
+#nbody blockquote p,#nbody blockquote div,#nbody li div,#nbody li p{margin:0}
+#nbody hr{border:0;height:1px;background:var(--line);margin:14px 0}
+#nbody.is-empty>:first-child::before{content:"Type your idea… or press / for commands";float:left;height:0;color:var(--mute);pointer-events:none}
+
+/* checklist */
+#nbody ul.cl{list-style:none;padding-left:0}
+#nbody ul.cl>li{position:relative;padding-left:30px}
+#nbody ul.cl>li::before{content:"";position:absolute;left:3px;top:.2em;width:18px;height:18px;box-sizing:border-box;
+  border:2px solid var(--mute);border-radius:6px;cursor:pointer;transition:background .12s,border-color .12s}
+#nbody ul.cl>li:hover::before{border-color:var(--primary)}
+#nbody ul.cl>li[data-c="1"]::before{border-color:var(--primary);
+  background:var(--primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/13px no-repeat}
+#nbody ul.cl>li[data-c="1"]{color:var(--mute);text-decoration:line-through}
+
+/* "/" command menu */
+.nslash{position:fixed;z-index:11;min-width:220px;overflow-y:auto;padding:6px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.35);
+  overscroll-behavior:contain}
+.nslash[hidden]{display:none}
+.nsi{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:10px;cursor:pointer;color:var(--text)}
+.nsi .ic{flex:none;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:8px;
+  background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.nsi .tx{display:flex;flex-direction:column;min-width:0}
+.nsi b{font-size:14px;font-weight:600;line-height:1.25}
+.nsi small{font-size:12px;color:var(--mute);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nsi.on{background:color-mix(in srgb,var(--primary) 16%,transparent)}
+.nsi.on .ic{color:var(--primary);border-color:color-mix(in srgb,var(--primary) 45%,var(--line))}
+@media (max-width:640px){.nsi{padding:8px}.nsi small{display:none}}
+
+@media (prefers-reduced-motion:reduce){.ntb button,#nbody ul.cl>li::before{transition:none}}

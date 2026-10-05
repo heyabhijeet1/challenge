@@ -82,8 +82,7 @@ function Markup() {
 <button onClick={() => w.copyNote()}>Copy</button>
 <button onClick={() => w.delNote()}>🗑</button>
 </div>
-</div>{' '}<input id="ntitle" placeholder="Quick Note 1" maxLength={60} />{' '}<textarea id="nbody" placeholder="Type your idea…">
-</textarea>{' '}<div id="nsaved">
+</div>{' '}<input id="ntitle" placeholder="Quick Note 1" maxLength={60} />{' '}<div id="ned"></div>{' '}<div id="nsaved">
 </div>{' '}</div>
 </div>{' '}<div id="onb">
 <div className="onbox">{' '}<button className="skip" onClick={() => w.finishOnb(false)}>Skip</button>{' '}<div id="onbody">

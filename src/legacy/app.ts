@@ -1,6 +1,7 @@
 // @ts-nocheck
 // Original app logic, ported 1:1 from the artifact.
 import { giftBridge } from "../gifts/bridge";
+import { noteEditor as noteEd } from "../notes/richEditor";
 
 let started = false;
 export function initApp() {
@@ -1235,10 +1236,10 @@ export function initApp() {
     $("ntitle").placeholder = cn.isNew
       ? "Quick Note " + (S.noteN + 1)
       : cn.title || "Quick Note";
-    $("nbody").value = cn.text || "";
+    noteEd.load(cn);
     $("nsaved").textContent = "";
     $("nt").style.display = "block";
-    $("nbody").focus();
+    noteEd.focus();
   }
   // Notes are ordered by when they were created (newest first). Editing never moves them.
   const created = (n) => n.c || n.id || n.t || 0;
@@ -1250,10 +1251,11 @@ export function initApp() {
   }
   function persist() {
     if (!cn) return;
-    const txt = $("nbody").value,
+    const txt = noteEd.getText(),
       tt = $("ntitle").value.trim();
     cn.text = txt;
-    if (!txt.trim() && !tt) {
+    cn.html = noteEd.getHtml();
+    if (noteEd.isEmpty() && !tt) {
       if (!cn.isNew) {
         S.notes = S.notes.filter((n) => n.id !== cn.id);
         save();
@@ -1284,7 +1286,7 @@ export function initApp() {
   }
   function copyNote() {
     persist();
-    copyText($("nbody").value);
+    copyText(noteEd.getText());
   }
   function delNote() {
     if (!cn) return;
@@ -1810,7 +1812,8 @@ export function initApp() {
   $("ct").addEventListener("keydown", (e) => {
     if (e.key === "Enter") addC();
   });
-  $("nbody").addEventListener("input", onType);
+  noteEd.mount($("ned"));
+  noteEd.onInput(onType);
   $("ntitle").addEventListener("input", onType);
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {

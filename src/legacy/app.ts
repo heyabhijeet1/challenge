@@ -1161,7 +1161,8 @@ export function initApp() {
         '<div class="oe">👋</div><div class="oh">Win your day</div><p class="op">Turn what you need to do into small wins.</p>' +
         '<div class="orow"><span>✅</span><div><b>Challenges</b><small>Things to do today. They reset at midnight.</small></div></div>' +
         '<div class="orow"><span>🎯</span><div><b>Milestones</b><small>Bigger goals with deadlines.</small></div></div>' +
-        '<div class="orow"><span>🌠</span><div><b>Bucket list</b><small>Dreams that keep you going.</small></div></div>';
+        '<div class="orow"><span>🌠</span><div><b>Bucket list</b><small>Dreams that keep you going.</small></div></div>' +
+        '<div class="orow"><span>🎁</span><div><b>Gift Vault</b><small>Make progress to unlock surprise gifts. Open them and keep them forever.</small></div></div>';
     } else if (mouse) {
       b.innerHTML =
         '<div class="oe">✅</div><div class="oh">Click to win</div>' +

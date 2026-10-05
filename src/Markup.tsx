@@ -9,7 +9,7 @@ const run = (code: string) => (0, eval)(code)
 function Markup() {
   return (
     <>
-{' '}<div className="wrap">{' '}<h1><img className="logo" src="/logo.png" alt="" />Challenge</h1>{' '}<p className="sub">Slide right to complete. Earn your points.</p>{' '}<div className="top">
+{' '}<div className="wrap">{' '}<h1><img className="logo" src="/logo.png" alt="" />Challenge</h1>{' '}<p className="sub">Slide left to complete. Earn your points.</p>{' '}<div className="top">
 <div className="score" id="score" onClick={() => w.openPts()}>⭐ 0 points</div>
 <div className="score st" id="streak" onClick={() => w.openStk()}>🔥 0</div>
 <div style={{"marginLeft": "auto", "display": "flex", "gap": "6px"}}>

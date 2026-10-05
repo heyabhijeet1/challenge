@@ -1174,7 +1174,7 @@ export function initApp() {
         '<p class="op" style="font-size:13px">Shortcuts: N for a new note, S for the stopwatch, Esc to close a screen.</p>';
     } else {
       b.innerHTML =
-        '<div class="oe">👉</div><div class="oh">Swipe to win</div>' +
+        '<div class="oe">👈</div><div class="oh">Swipe to win</div>' +
         '<div class="demo"><div class="dh">✓ Complete</div><div class="dc">Read for 30 minutes</div></div>' +
         '<p class="op">Slide a challenge to the right to complete it. You get points and a celebration. Keep your streak and level up.</p>';
     }
@@ -1426,7 +1426,7 @@ export function initApp() {
     setQ("b");
     render();
   }
-  const EM = ["✨", "🌍", "🚀", "🎯", "💫", "🏔️", "🎸", "🏝️"];
+  
   function elB(i) {
     const w = document.createElement("div");
     w.className = "item" + (i.d ? " gold" : "");
@@ -1436,10 +1436,10 @@ export function initApp() {
     const c = document.createElement("div");
     c.className = "card dcard";
     c.innerHTML =
-      '<div class="em"></div><div style="flex:1;min-width:0"><b></b><small></small></div><button class="x">🗑</button>';
-    c.style.borderLeft = "5px solid var(--green)";
-    c.querySelector(".em").textContent = i.d ? "🏆" : EM[i.id % EM.length];
-    c.querySelector(".em").style.background = "color-mix(in srgb, var(--green) 15%, transparent)";
+      '<div style="flex:1;min-width:0"><b></b><small></small></div><button class="x">🗑</button>';
+    
+    
+    
     c.querySelector("b").textContent = i.t;
     const sm = c.querySelector("small");
     sm.textContent = i.d ? "Achieved ✓" : "";
@@ -1460,14 +1460,14 @@ export function initApp() {
       c.addEventListener(
         "touchmove",
         (e) => {
-          dx = Math.max(0, e.touches[0].clientX - sx);
+          dx = Math.min(0, e.touches[0].clientX - sx);
           c.style.transform = "translateX(" + dx + "px)";
         },
         { passive: true },
       );
       c.addEventListener("touchend", () => {
         c.style.transition = "transform .25s";
-        if (dx > 110)
+        if (dx < -110)
           ask("Did you achieve this?", "Yes, achieved", () => achieve(i.id));
         c.style.transform = "";
       });
@@ -1723,14 +1723,14 @@ export function initApp() {
       c.addEventListener(
         "touchmove",
         (e) => {
-          dx = Math.max(0, e.touches[0].clientX - sx);
+          dx = Math.min(0, e.touches[0].clientX - sx);
           c.style.transform = "translateX(" + dx + "px)";
         },
         { passive: true },
       );
       c.addEventListener("touchend", () => {
         c.style.transition = "transform .25s";
-        if (dx > 110) askDone(i.id);
+        if (dx < -110) askDone(i.id);
         c.style.transform = "";
       });
       c.ondblclick = () => askDone(i.id);

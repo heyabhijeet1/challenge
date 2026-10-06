@@ -1175,7 +1175,7 @@ export function initApp() {
       b.innerHTML =
         '<div class="oe">👈</div><div class="oh">Swipe to win</div>' +
         '<div class="demo"><div class="dh">✓ Complete</div><div class="dc">Read for 30 minutes</div></div>' +
-        '<p class="op">Slide a challenge to the right to complete it. You get points and a celebration. Keep your streak and level up.</p>';
+        '<p class="op">Slide a challenge to the left to complete it. You get points and a celebration. Keep your streak and level up.</p>';
     }
     const d = $("odots");
     d.innerHTML = "";

@@ -5,6 +5,8 @@ import ThemeToggle from './ThemeToggle'
 import { initApp } from './legacy/app'
 import { installEmojiIcons } from './emojiIcons'
 import { GiftReveal, GiftVault, startGiftEngine } from './gifts'
+import { installBackNav } from './backNav'
+
 
 const PANELS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap', 'gv']
 const isOpen = (id: string) => {
@@ -15,6 +17,7 @@ const isOpen = (id: string) => {
 export default function App() {
   useEffect(() => {
     initApp()
+    const stopBack = installBackNav()
     startGiftEngine()
     installEmojiIcons()
     const w = window as any
@@ -37,7 +40,10 @@ export default function App() {
       if (e.key === 's') { e.preventDefault(); w.openSw?.() }
     }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      stopBack()
+    }
   }, [])
   return (
     <>

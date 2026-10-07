@@ -506,6 +506,7 @@ function onKeyDown(e: KeyboardEvent) {
   else if (!e.shiftKey && !e.altKey && k === 'KeyY') exec('redo')
   else if (e.shiftKey && !e.altKey && k === 'Digit7') toggleBlock('ol')
   else if (e.shiftKey && !e.altKey && k === 'Digit8') toggleBlock('ul')
+  else if (e.shiftKey && !e.altKey && k === 'Digit9') toggleBlock('todo') // quick checkbox
   else if (e.altKey && !e.shiftKey && k === 'Digit1') toggleBlock('h1')
   else if (e.altKey && !e.shiftKey && k === 'Digit2') toggleBlock('h2')
   else if (e.altKey && !e.shiftKey && k === 'Digit3') toggleBlock('h3')

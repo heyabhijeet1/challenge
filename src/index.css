@@ -310,8 +310,9 @@ h1 .logo { width: 36px; height: 36px; border-radius: 10px; vertical-align: -7px;
 
 /* ===== Brand: logo blue + polish ===== */
 :root{--blue:#2084FA;--blue-2:#1249F9;--cyan:#2AC7FB;--brand-wide:linear-gradient(90deg,#1249F9,#2AC7FB)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080A1C;--card:#12142B;--line:#23264A;--mute:#8F98C0}}
-:root[data-theme="dark"]{--bg:#080A1C;--card:#12142B;--line:#23264A;--mute:#8F98C0}
+:root{--bg:#F6F4EF;--card:#FFFFFF;--text:#1C1B19;--mute:#6E6A63;--line:#E6E2D9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--card:#1D1D1F;--text:#EDEBE6;--line:#2C2C2F;--mute:#A09C94}}
+:root[data-theme="dark"]{--bg:#141414;--card:#1D1D1F;--text:#EDEBE6;--line:#2C2C2F;--mute:#A09C94}
 
 body{font-family:'Figtree Variable',-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg)}
 button,input,textarea,select{font-family:inherit}

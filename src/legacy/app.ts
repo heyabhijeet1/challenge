@@ -1158,7 +1158,7 @@ export function initApp() {
     const mouse = matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (ostep === 0) {
             b.innerHTML =
-        '<div class="oe">👋</div><div class="oh">Win your day</div><p class="op">Turn what you need to do into small wins.</p>' +
+        '<img src="/logo.png" alt="" style="width:64px;height:64px;border-radius:16px"><div class="oh">Win your day</div><p class="op">Turn what you need to do into small wins.</p>' +
         '<div class="orow"><span>✅</span><div><b>Challenges</b><small>Things to do today. They reset at midnight.</small></div></div>' +
         '<div class="orow"><span>🎯</span><div><b>Milestones</b><small>Bigger goals with deadlines.</small></div></div>' +
         '<div class="orow"><span>🌠</span><div><b>Bucket list</b><small>Dreams that keep you going.</small></div></div>' +

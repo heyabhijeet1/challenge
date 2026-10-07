@@ -307,3 +307,30 @@ button { color: var(--text); }
 h1 .logo { width: 36px; height: 36px; border-radius: 10px; vertical-align: -7px; margin-right: 10px; }
 
 .wrap > h1 { margin-bottom: 18px; }
+
+/* ===== Polish pass ===== */
+body{font-family:'Figtree Variable',-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg)}
+button,input,textarea,select{font-family:inherit}
+input[type=checkbox]{accent-color:var(--primary)}
+
+h1,.oh,#swt{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--text)}
+
+.score,.onext,.fab1,.hpills button.on,#swb{background:var(--primary)}
+.st{background:var(--orange)}
+.tabs button.on{background:var(--accent);box-shadow:none}
+#recap .tabs button.on{background:var(--primary);box-shadow:none}
+.lvl .bar i{background:var(--primary)}
+.prog .bar i{background:var(--accent)}
+.rbar.best{background:var(--primary)}
+.sd.on i{background:var(--orange)}
+#swb.stop{background:var(--danger);box-shadow:none}
+.fab1{box-shadow:0 2px 8px var(--shadow)}
+.demo{background:var(--primary)}
+.item{background:var(--accent)}
+
+@media (min-width:900px){
+  #gvbtn,.top .snd:not([id]){display:none}
+  .reset{display:none}
+  .fab2{display:none}
+}
+@media (hover:hover) and (pointer:fine){.item{background:transparent}}

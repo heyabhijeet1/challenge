@@ -67,7 +67,7 @@ export default function Sidebar() {
     <aside className="fixed inset-y-0 left-0 z-[12] hidden w-[264px] flex-col border-r border-[var(--line)] bg-[var(--card)] p-5 min-[900px]:flex">
       <div className="mb-7 flex items-center gap-2.5 px-1">
         <img src="/logo.png" alt="" className="h-9 w-9 rounded-[10px]" />
-        <span className="inline-block bg-gradient-to-r from-[var(--primary)] to-[var(--primary-2)] bg-clip-text text-[26px] font-extrabold leading-tight text-transparent">
+        <span className="inline-block text-[26px] font-extrabold leading-tight text-[var(--text)]">
           Challenge
         </span>
       </div>
@@ -93,9 +93,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto flex flex-col gap-2">
-        <div className="flex gap-2">
-          {/* ...your points and streak boxes, unchanged... */}
-        </div>
+
 
         <ThemeToggle variant="row" />
 

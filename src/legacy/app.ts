@@ -1170,12 +1170,14 @@ export function initApp() {
         '<div class="oe">✅</div><div class="oh">Click to win</div>' +
         '<div class="item" style="margin:16px 0"><div class="card" style="text-align:left"><div><b>Read for 30 minutes</b><small> · +5 pts</small></div><button class="x">🗑</button><button class="ok">✅</button></div></div>' +
         `<p class="op">Click the check button on the right of a challenge to complete it. You get points and a celebration. Keep your streak and level up. Finishing is final, so tick it only when it's really done.</p>` +
-        '<p class="op" style="font-size:13px">Shortcuts: N for a new note, S for the stopwatch, Esc to close a screen.</p>';
+        '<p class="op" style="font-size:13px"><b>Shortcuts</b> (work anywhere, except while typing): <b>C</b> Challenges · <b>M</b> Milestones · <b>B</b> Bucket list · <b>G</b> Gift Vault · <b>T</b> Statistics · <b>S</b> Stopwatch · <b>N</b> Notes · <b>Esc</b> closes a screen.</p>' +
+        '<p class="op" style="font-size:13px">In a note: <b>Ctrl/Cmd+Shift+9</b> adds a checkbox and <b>Ctrl/Cmd+Enter</b> ticks it. </p>';
     } else {
       b.innerHTML =
         '<div class="oe">👈</div><div class="oh">Swipe to win</div>' +
         '<div class="demo"><div class="dh">✓ Complete</div><div class="dc">Read for 30 minutes</div></div>' +
-        '<p class="op">Slide a challenge to the left to complete it. You get points and a celebration. Keep your streak and level up.</p>';
+        '<p class="op">Slide a challenge to the left to complete it. You get points and a celebration. Keep your streak and level up.</p>' +
+        `<p class="op" style="font-size:13px">You get points and a celebration. Keep your streak and level up. Finishing is final, so tick it only when it's really done.</p>`;
     }
     const d = $("odots");
     d.innerHTML = "";

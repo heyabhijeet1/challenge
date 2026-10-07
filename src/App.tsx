@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import Markup from './Markup'
-import Sidebar from './Sidebar'
+import Sidebar, { goSection } from './Sidebar'
 import ThemeToggle from './ThemeToggle'
 import { initApp } from './legacy/app'
 import { installEmojiIcons } from './emojiIcons'
@@ -12,6 +12,9 @@ const PANELS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap', 'gv']
 const isOpen = (id: string) => {
   const el = document.getElementById(id)
   return !!el && getComputedStyle(el).display !== 'none'
+}
+const SECTION_KEYS: Record<string, string> = {
+  c: 'c', m: 'm', b: 'b', g: 'gifts', t: 'stats', s: 'sw', n: 'notes',
 }
 
 export default function App() {
@@ -34,10 +37,14 @@ export default function App() {
           ; ((el.querySelector('.nback') ?? el.querySelector('.vhead > button')) as HTMLElement | null)?.click()
         return
       }
-      if (/^(INPUT|TEXTAREA|SELECT)$/.test((e.target as HTMLElement).tagName)) return
-      if (PANELS.some(isOpen) || ['pop', 'ask', 'lvup', 'onb', 'gvr'].some(isOpen)) return
-      if (e.key === 'n') { e.preventDefault(); w.newNote?.() }
-      if (e.key === 's') { e.preventDefault(); w.openSw?.() }
+            const t = e.target as HTMLElement
+      if (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return
+      if (isOpen('nt')) return // note editor open: never steal keystrokes
+      if (['pop', 'ask', 'lvup', 'onb', 'gvr'].some(isOpen)) return
+      const section = SECTION_KEYS[e.key.toLowerCase()]
+      if (!section) return
+      e.preventDefault()
+      goSection(section)
     }
     document.addEventListener('keydown', onKey)
     return () => {

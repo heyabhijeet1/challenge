@@ -21,6 +21,15 @@ function closeAll() {
   }
 }
 
+export function goSection(key: string) {
+  closeAll()
+  if (key === 'stats') w.openRecap?.()
+  else if (key === 'sw') w.openSw?.()
+  else if (key === 'gifts') w.openGifts?.()
+  else if (key === 'notes') w.openNotes?.()
+  else w.setTab?.(key)
+}
+
 const ITEMS = [
   { key: 'c', label: 'Challenges', icon: CheckCircle2 },
   { key: 'm', label: 'Milestones', icon: Target },
@@ -51,14 +60,7 @@ export default function Sidebar() {
     return () => clearInterval(t)
   }, [])
 
-  const go = (key: string) => {
-    closeAll()
-    if (key === 'stats') w.openRecap?.()
-    else if (key === 'sw') w.openSw?.()
-    else if (key === 'gifts') w.openGifts?.()
-    else if (key === 'notes') w.openNotes?.()
-    else w.setTab?.(key)
-  }
+  const go = goSection
 
   const base = 'flex w-full cursor-pointer items-center gap-3 rounded-xl border-0 px-3.5 py-2.5 text-left text-[15px] font-semibold transition-colors'
   return (

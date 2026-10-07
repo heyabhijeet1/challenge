@@ -4,7 +4,7 @@
 import './notes.css'
 import {
   Bold, Italic, Underline, Strikethrough, Heading1, Heading2, Heading3, List, ListOrdered, ListTodo,
-  Quote, Minus, Undo2, Redo2, RemoveFormatting,
+  Quote, Minus, Undo2, Redo2, RemoveFormatting, Clock,
 } from 'lucide'
 import type { IconNode } from 'lucide'
 import { isDocEmpty, plainToHtml, sanitize, toText } from './content'
@@ -188,6 +188,13 @@ function clearFormatting() {
   scrub()
   refreshToolbar()
 }
+function insertTimestamp() {
+  ensureFocus()
+  const stamp = new Date().toLocaleString([], {
+    hour: 'numeric', minute: '2-digit', hour12: true,
+  })
+  exec('bold'); exec('insertText', `${stamp}`); exec('bold'); exec('insertText', ' ')
+}
 
 // ---- toolbar ------------------------------------------------------------------------------
 interface Btn { id: string; label: string; keys?: string; icon: IconNode; run: () => void; on?: () => boolean }
@@ -216,6 +223,7 @@ const BUTTONS: Btn[][] = [
     { id: 'quote', label: 'Quote', icon: Quote, run: () => toggleBlock('quote'), on: () => kindNow() === 'quote' },
     { id: 'hr', label: 'Divider', icon: Minus, run: insertDivider },
     { id: 'clear', label: 'Clear formatting', icon: RemoveFormatting, run: clearFormatting },
+    { id: 'time', label: 'Insert timestamp', icon: Clock, run: insertTimestamp },
   ],
 ]
 const ALL_BTNS = BUTTONS.flat()

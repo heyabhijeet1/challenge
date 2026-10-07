@@ -67,7 +67,7 @@ export default function Sidebar() {
     <aside className="fixed inset-y-0 left-0 z-[12] hidden w-[264px] flex-col border-r border-[var(--line)] bg-[var(--card)] p-5 min-[900px]:flex">
       <div className="mb-7 flex items-center gap-2.5 px-1">
         <img src="/logo.png" alt="" className="h-9 w-9 rounded-[10px]" />
-        <span className="inline-block text-[26px] font-extrabold leading-tight text-[var(--text)]">
+        <span className="inline-block bg-gradient-to-r from-[#1249F9] to-[#2AC7FB] bg-clip-text text-[26px] font-extrabold leading-tight text-transparent">
           Challenge
         </span>
       </div>

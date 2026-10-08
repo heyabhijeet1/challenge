@@ -325,3 +325,4 @@ h1,.oh{background-image:var(--brand-wide)}
   .fab2{display:none}
 }
 @media (hover:hover) and (pointer:fine){.item{background:transparent}}
+.sd.on i{color:#fff}

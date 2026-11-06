@@ -6,8 +6,7 @@ import { initApp } from './legacy/app'
 import { installEmojiIcons } from './emojiIcons'
 import { GiftReveal, GiftVault, startGiftEngine } from './gifts'
 import { installBackNav } from './backNav'
-
-
+// test
 const PANELS = ['nt', 'nl', 'sw', 'pts', 'stk', 'recap', 'gv']
 const isOpen = (id: string) => {
   const el = document.getElementById(id)
